@@ -1,15 +1,12 @@
 <template>
     <div id="app">
-        <div class="heading">
-            <h1>Cruds</h1>
-        </div>
-        <crud-component
+        <table-component
                 v-for="crud in cruds"
                 v-bind="crud"
                 :key="crud.id"
                 @update="update"
                 @delete="del"
-        ></crud-component>
+        ></table-component>
         <div>
             <button @click="create()">Add</button>
         </div>
@@ -22,7 +19,7 @@
     this.color = color;
     this.name = name;
   }
-  import CrudComponent from './CrudComponent.vue';
+  import TableComponent from './TableComponent.vue';
   export default {
     data() {
       return {
@@ -33,14 +30,14 @@
     methods: {
       create() {
         this.mute = true;
-        window.axios.get(public_path + '/api/cruds/create').then(({ data }) => {
+        window.axios.get(public_path + 'api/' + controller + '/create').then(({ data }) => {
           this.cruds.push(new Crud(data));
           this.mute = false;
         });
       },
       read() {
         this.mute = true;
-        window.axios.get(public_path + '/api/cruds').then(({ data }) => {
+        window.axios.get(public_path + 'api/' + controller).then(({ data }) => {
           data.forEach(crud => {
             this.cruds.push(new Crud(crud));
           });
@@ -49,14 +46,14 @@
       },
       update(id, color) {
         this.mute = true;
-        window.axios.put(public_path + `/api/cruds/${id}`, { color }).then(() => {
+        window.axios.put(public_path + 'api/' + controller + `/${id}`, { color }).then(() => {
           this.cruds.find(crud => crud.id === id).color = color;
           this.mute = false;
         });
       },
       del(id) {
         this.mute = true;
-        window.axios.delete(public_path + `/api/cruds/${id}`).then(() => {
+        window.axios.delete(public_path + 'api/' + controller + `/${id}`).then(() => {
           let index = this.cruds.findIndex(crud => crud.id === id);
           this.cruds.splice(index, 1);
           this.mute = false;
@@ -69,7 +66,7 @@
       }
     },
     components: {
-      CrudComponent
+      TableComponent
     },
     created() {
       this.read();

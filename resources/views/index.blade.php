@@ -28,8 +28,17 @@
 </head>
 <body>
 <div id="mute"></div>
-<div id="app"></div>
-<script>var public_path = "{{ url('/') }}/"; </script>
-<script src="js/app.js"></script>
+<div class="heading">
+  <h1 class="title">Cruds</h1>
+</div>
+<div id="crud"></div>
+<script>
+
+var public_path = '{{ url('/') }}/';
+var controller = 'cruds';
+var type = 'table';
+
+</script>
+<script src="{{ asset('js/app.js') }}"></script>
 </body>
 </html>
